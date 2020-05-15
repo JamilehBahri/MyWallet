@@ -24,7 +24,7 @@ import java.util.List;
     @Override
     public List<MerchantProfileDto> getAllMerchants() {
         List<MerchantProfileDto> merchantProfileDtos = new ArrayList<>();
-        List<MerchantProfile> merchantProfiles =merchantProfileDaoImpl.findAll();
+        List<MerchantProfile> merchantProfiles =(List<MerchantProfile>) merchantProfileDaoImpl.findAll();
 
         for (MerchantProfile merchantProfile : merchantProfiles)
         {

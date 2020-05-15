@@ -122,7 +122,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/payment">
-          <i class="fas fa-fw fa-table"></i>
+          <i class="fas fa-wallet"></i>
           <span>Payment</span></a>
       </li>
     </ul>
@@ -135,78 +135,64 @@
           <div class="card-header">
             <div class="row">
               <div class="col-lg-8">
-                <h3><i class="fas fa-clock"></i> Latest Transaction Panel</h3>
+                <h3><i class="fas fa-wallet"></i> Pay From Wallet</h3>
               </div>
 
             </div>
-          </div>
-           <div class="card-body">
-          <div class="table-responsive">
-
-              <%--<form method="GET" action="/Invoices/latest" modelAttribute="latestTransaction">--%>
-              <table  class="table table-bordered" id="transactiontable" width="100%" cellspacing="0" >
-                <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Username</th>
-                  <th>User Mobile</th>
-                  <th>Merchant Id</th>
-                  <th>Merchant Name</th>
-                  <th>Merchant Card</th>
-                  <th>Type</th>
-                  <th>Amount</th>
-                  <th>Timestamp</th>
-                </tr>
-                <c:forEach items="${latestTransaction}" var="latestTransaction">
-
-                <tr>
-                  <td>${latestTransaction.id}</td>
-                  <td>${latestTransaction.username}</td>
-                  <td>${latestTransaction.userMobile}</td>
-                  <td>${latestTransaction.merchantId}</td>
-                  <td>${latestTransaction.merchantFullName}</td>
-                  <td>${latestTransaction.merchantDebitCardPan}</td>
-                  <td>${latestTransaction.type}</td>
-                  <td>${latestTransaction.amount}</td>
-                  <td>${latestTransaction.timestamp}</td>
-                </tr>
-                </c:forEach>
-                <tbody>
-                </tbody>
-              </table>
-              <%--</form>--%>
-            </div>
-          </div>
-        <div class="card-footer small text-muted">Total transaction number is : </div>
-        <%--</div>--%>
-      </div>
-
-      <div class="container-fluid">
-        <!-- DataTables Example Wallet Balances Panel -->
-        <div class="card mb-3">
-          <div class="card-header">
-
-            <div class="row">
-              <div class="col-lg-8">
-                <h3><i class="fas fa-money-check"></i> Wallet Balances Panel</h3>
-              </div>
-            </div>
-
           </div>
           <div class="card-body">
-            <div class="table-responsive">
-              <div class="list-group" id="wallet-balances">
+            <form action="#" method="post" class="paymentForm" name="payForm" role="form">
 
-                <%--<lable class="list-group-item"><span class="badge"> ${balance}Rials</span><i class="fa fa-money-check fa-fw"></i> Total Balance </lable>--%>
-                  <lable> <i class="fa fa-money-check fa-fw"></i> Total Balance <span class="badge" style="alignment: right"> ${balance}Rials</span> </lable>
-
+              <div class="row">
+                <div class="col-lg-9">
+                  <input class="form-control" name="merchantcode" placeholder="merchantCode" id="merchantcode" type="text" autofocus />
+                </div>
+                <div class="col-lg-3">
+                  <label id="merchantcodelable"></label>
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="card-footer small text-muted">Total balances is : </div>
-        </div>
-      </div>
+              <div class="row">
+                <div class="col-lg-9">
+                  <input class="form-control" name="username" placeholder="username" id="username" type="text" autofocus />
+                </div>
+                <div class="col-lg-3">
+                  <label id="usernamelable"></label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-9">
+                  <input class="form-control" name="amount" placeholder="Amount" id="amount" type="text" autofocus />
+                </div>
+                <div class="col-lg-3">
+                  <label id="amountlable"></label>
+                </div>
+              </div>
+              <%--data-toggle="modal" data-target="#ConfirmPayModal"--%>
+              <button class="btn btn-lg btn-primary buttenHeader" type="button" id="pay"  > Pay </button>
+              <input class="btn btn-lg btn-primary btn-block" type="reset" value="Reset">
 
+            </form>
+            <%--<c:url var="payActionUrl" value="/payment" />--%>
+               <%--<form:form method="post" class="paymentForm" modelAttribute="paymentInfo" action="${payActionUrl}">--%>
+                 <%--<label> merchantCode : </label>--%>
+                 <%--<form:input path="merchantcode" type="text" class="form-control" placeholder="merchantCode" />--%>
+                 <%--<form:errors path="merchantcode" />--%>
+                 <%--<br>--%>
+                 <%--<label> Amount : </label>--%>
+                 <%--<form:input path="amount" type="text"  class="form-control" placeholder=" Amount (Rial)"/>--%>
+                 <%--<form:errors path="amount" />--%>
+                 <%--<br>--%>
+                 <%--<label> username : </label>--%>
+                 <%--<form:input path="username" type="text" class="form-control" placeholder="username" />--%>
+                 <%--<form:errors path="username" />--%>
+                 <%--<br>--%>
+                 <%--<button class="btn btn-lg btn-primary buttenHeader" type="button" data-toggle="modal" data-target="#ConfirmPayModal" > Pay </button>--%>
+                 <%--<input class="btn btn-lg btn-primary btn-block" type="reset" value="Reset">--%>
+
+               <%--</form:form>--%>
+             </div>
+          <%--<div class="card-footer small text-muted">Total transaction number is : </div>--%>
+       </div>
 
       </div>
       <!-- /.container-fluid -->
@@ -250,6 +236,84 @@
     </div>
   </div>
 
+  <%--<!-- ConfirmPay  Modal -->--%>
+  <div id="ConfirmPayModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close fas fa-window-close" data-dismiss="modal"></button>
+          <h4 class="modal-title"> Confirm Pay</h4>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-12">
+                  <form action="#" method="put" modelAttribute="paymentInfo" name="payModal" class="m-confirmpay" role="form">
+                    <label> Are you sure pay </label>
+                    <label id="m_amount" name="m_amount"> </label>
+                    <label> Rials,to the </label>
+                    <label id="m_merchantname"></label>
+                    <label id="m_merchantfamily"></label>(code :
+                    <label id="m_merchantcode"></label>
+                    <label> )account , from userame : </label>
+                    <label id="m_username"></label>
+                  <button class="btn btn-lg btn-primary btn-block" type="submit" name="action" value="continue"> Continue</button>
+                  <br>
+                  <a href="/payment"><input class="btn btn-lg btn-primary btn-block" type="button" value="Cancel" name="cancel" onclick="this.parentNode.href=/payment;" /></a>
+                  </form>
+                </div>
+            </div>
+          </div>
+          <!-- Modal body -->
+        </div>
+        <div class="modal-footer" id="confirmpay-modal-footer">
+          <div class="row">
+            <div class="col-lg-6">
+              <label id="errorlable" style="color: red; text-align: left"></label>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Content -->
+      </div>
+    </div>
+  </div>
+
+  <%--<!-- successPay  Modal -->--%>
+  <div id="SuccessPayModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close fas fa-window-close" data-dismiss="modal"></button>
+          <h4 class="modal-title"> Success Pay</h4>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-12">
+                <form action="#" method="GET" class="m-successpay" role="form">
+                  <label> pay is success </label>
+                    <a href="/"><input class="btn btn-lg btn-primary btn-block" type="button" value="close" name="close" onclick="this.parentNode.href=/;" /></a>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- Modal body -->
+        </div>
+        <div class="modal-footer" id="confirmpay-modal-footer">
+          <div class="row">
+            <div class="col-lg-6">
+              <label id="errorlable" style="color: red; text-align: left"></label>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Content -->
+      </div>
+    </div>
+  </div>
+
+
   <%--<!-- Bootstrap core JavaScript-->--%>
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -262,11 +326,92 @@
 
   <script type="text/javascript">
       $(document).ready(function() {
+          //press pay
+          $("#pay").click(function(){
+              event.preventDefault();
+              var csrfToken = $("meta[name='_csrf']").attr("content");
+              var header = "X-CSRF-TOKEN";
+              var form_data = {
+                  merchantcode:$("#merchantcode").val(),
+                  username: $("#username").val(),
+                  amount :  $("#amount").val()
+              };
+              console.log(form_data);
 
+              $.ajax({
+                  type: "POST",
+                  url: "/payment",
+                  dataType: "json",
+                  data : form_data,
+                  xhrFields: {
+                      withCredentials: false
+                  },
+                  beforeSend: function(xhr) {
+                      xhr.setRequestHeader(header, csrfToken);
+                  },
+                  success: function (response)
+                  {
+                      if(response.validated){
+                          $("#m_merchantname").text(response.paymentDto.merchantname + response.paymentDto.merchantfamily);
+                          $("#m_merchantcode").text(response.paymentDto.merchantcode);
+                          $("#m_username").text(response.paymentDto.username);
+                          $("#m_amount").text(response.paymentDto.amount);
 
+                          $('#ConfirmPayModal').modal('show');
 
-
+                      }
+                      // else {
+                      //     $.each(response.errorMessages,function(key,value){
+                      //         $('input[name='+key+']').after('<span class="error">'+value+'</span>');
+                      //     });
+                      // }
+                  },
+                  error: function (ex) {
+                      console.log(ex);
+                  }
+              });
           });
+
+          //press confirm
+          $('.m-confirmpay').on('submit', function(event) {
+              event.preventDefault();
+              var csrfToken = $("meta[name='_csrf']").attr("content");
+              var header = "X-CSRF-TOKEN";
+              var form_data = {
+                  merchantcode:$("#merchantcode").val(),
+                  username: $("#username").val(),
+                  amount :  $("#amount").val()
+
+              };
+              $.ajax({
+                  type: "PUT",
+                  url: "/payment",
+                  dataType: "json",
+                  data : form_data,
+                  xhrFields: {
+                      withCredentials: false
+                  },
+                  beforeSend: function(xhr) {
+                      xhr.setRequestHeader(header, csrfToken);
+                  },
+                  success: function (response) {
+                      if(response.validated){
+                          $('#SuccessPayModal').modal('show');
+                      }
+                      // else {
+                      //     $.each(response.errorMessages,function(key,value){
+                      //         $('input[name=e-'+key+']').after('<span class="error">'+value+'</span>');
+                      //     });
+                      // }
+                  },
+                  error: function (ex) {
+                      console.log(ex);
+                  }
+              });
+          });
+
+
+      });
   </script>
 
 

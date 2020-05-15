@@ -24,9 +24,9 @@ public class RoleConverter extends BidirectionalConverter<String, Role> {
     public Role convertTo(String s, Type<Role> type) {
 
         try {
-            return roleDao.findByName(s);
+            return roleDao.findByRoleName(s);
         } catch (Exception ex) {
-            logger.error("convertTo() => roleDao.findByName() failed, exception: " + ex.getMessage(), ex);
+            logger.error("convertTo() => roleDao.findByRoleName() failed, exception: " + ex.getMessage(), ex);
         }
 
         return null;

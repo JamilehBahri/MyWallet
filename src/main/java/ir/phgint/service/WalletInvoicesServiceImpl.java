@@ -5,6 +5,7 @@ import ir.phgint.domain.TransactionType;
 import ir.phgint.domain.UserProfile;
 import ir.phgint.domain.WalletInvoices;
 import ir.phgint.domain.dto.WalletInvoicesDto;
+import ir.phgint.domain.repository.MerchantProfileDao;
 import ir.phgint.domain.repository.MerchantProfileDaoImpl;
 import ir.phgint.domain.repository.UserProfileDao;
 import ir.phgint.domain.repository.WalletInvoicesDao;
@@ -21,7 +22,7 @@ public class WalletInvoicesServiceImpl {
     private UserProfileDao userProfileDao;
 
     @Autowired
-    private MerchantProfileDaoImpl merchantProfileDao;
+    private MerchantProfileDao merchantProfileDao;
 
     @Autowired
     private WalletInvoicesDao walletInvoicesDao;
@@ -101,7 +102,7 @@ public class WalletInvoicesServiceImpl {
     public Map<String, Double> calculateUsersWalletBalance() {
        List<WalletInvoices> walletInvoicesList;
        Map<String,Double> map = new HashMap<>();
-            walletInvoicesList = walletInvoicesDao.findAll();
+            walletInvoicesList = (List<WalletInvoices>) walletInvoicesDao.findAll();
             return map;
 
 //        return Optional.of(walletInvoicesList.stream().collect(Collectors.groupingBy(
@@ -118,7 +119,7 @@ public class WalletInvoicesServiceImpl {
         List<WalletInvoices> walletInvoices = new ArrayList<>();
         Double balance =0d;
 
-        walletInvoices = walletInvoicesDao.findAll();
+        walletInvoices = (List<WalletInvoices>) walletInvoicesDao.findAll();
 
         for (WalletInvoices invoices : walletInvoices){
             try {

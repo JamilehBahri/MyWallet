@@ -96,7 +96,7 @@ public class UserProfileDaoTest
     public void addAdminProfileTest()
     {
         try {
-            userProfileDao.saveUser(adminProfile);
+            userProfileDao.save(adminProfile);
             UserProfile admin = userProfileDao.findUserById(adminProfile.getId());
             assertEquals("save user successfully",admin.getId(),adminProfile.getId());
 
@@ -109,7 +109,7 @@ public class UserProfileDaoTest
     public void addUserProfileTest()
     {
         try {
-            userProfileDao.saveUser(userProfile);
+            userProfileDao.save(userProfile);
             UserProfile user = userProfileDao.findUserById(userProfile.getId());
             assertEquals("save user successfully",user.getId(),userProfile.getId());
 
@@ -121,7 +121,7 @@ public class UserProfileDaoTest
     @Test
     public void findUserProfileTest()
     {
-        userProfileDao.saveUser(userProfile);
+        userProfileDao.save(userProfile);
         UserProfile user = userProfileDao.findUserByUsername(userProfile.getUsername());
         assertEquals("find user successfully",user.getUsername(),userProfile.getUsername());
 
@@ -130,18 +130,18 @@ public class UserProfileDaoTest
     @Test
     public void updateUserProfileTest()
     {
-        userProfileDao.saveUser(userProfile);
+        userProfileDao.save(userProfile);
         userProfile.setName("ali");
-        UserProfile user =  userProfileDao.updateUser(userProfile);
+        UserProfile user =  userProfileDao.save(userProfile); //update
         assertEquals("update user successfully",userProfile.getId(),user.getId());
     }
 
     @Test
     public void deleteUserProfileTest()
     {
-        userProfileDao.saveUser(userProfile);
+        userProfileDao.save(userProfile);
         UserProfile user = userProfileDao.findUserById(userProfile.getId());
-        userProfileDao.deleteUser(user);
+        userProfileDao.delete(user);
         UserProfile user2 = userProfileDao.findUserById(userProfile.getId());
         assertNull("delete user successfully",user2);
     }
