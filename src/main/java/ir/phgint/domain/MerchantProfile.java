@@ -19,7 +19,6 @@ public class MerchantProfile {
     @SequenceGenerator(name="MERCHANT_SEQUENCE_GENERATOR",
             sequenceName="MERCHANT_SEQUENCE", initialValue=100000, allocationSize = 100)
     @Column(name = "MerchantId", unique = true, nullable = false)
-
     private long merchantId;
 
     @Column(name = "Name", nullable = false)

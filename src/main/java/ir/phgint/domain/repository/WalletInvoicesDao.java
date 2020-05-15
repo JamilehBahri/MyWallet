@@ -1,17 +1,20 @@
 package ir.phgint.domain.repository;
 
 import ir.phgint.domain.WalletInvoices;
+import ir.phgint.domain.repository.manually.DaoRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Transactional
-public interface WalletInvoicesDao extends JpaRepository<WalletInvoices,Long > {
+//public interface WalletInvoicesDao extends JpaRepository<WalletInvoices,Long > {
+//
+//    List<WalletInvoices> findTop10ByOrderByTimestampDesc();
 
-    List<WalletInvoices> findTop10ByOrderByTimestampDesc();
+    public interface WalletInvoicesDao extends DaoRepository<WalletInvoices,Long > {
 
-
+        List<WalletInvoices> findTop10ByOrderByTimestampDesc();
 
 //    @PersistenceContext
 //    protected EntityManager entityManager;

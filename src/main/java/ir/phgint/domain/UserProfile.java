@@ -71,6 +71,9 @@ public class UserProfile {
     @Transient
     private String passwordConfirm;
 
+    @Column(nullable = false)
+    private double balance;
+
     // ~ Constructor
     // ===================================================================================================
     public UserProfile() { }
@@ -189,6 +192,14 @@ public class UserProfile {
         this.role = role;
     }
 
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
     public void userProfileCopyFrom(final UserProfile userProfile) {
         this.name = userProfile.name;
         this.family = userProfile.family;
@@ -228,22 +239,23 @@ public class UserProfile {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("UserProfile{");
-        sb.append("id=").append(id);
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", family='").append(family).append('\'');
-        sb.append(", gender=").append(gender);
-        sb.append(", address='").append(address).append('\'');
-        sb.append(", phone='").append(phone).append('\'');
-        sb.append(", mobile='").append(mobile).append('\'');
-        sb.append(", email='").append(email).append('\'');
-        sb.append(", birthday=").append(birthday);
-        sb.append(", nationalId='").append(nationalId).append('\'');
-        sb.append(", username='").append(username).append('\'');
-        sb.append(", password='").append(password).append('\'');
-        sb.append(", walletInvoices=").append(walletInvoices);
-        sb.append(", role=").append(role);
-        sb.append('}');
-        return sb.toString();
+        return "UserProfile{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", family='" + family + '\'' +
+                ", gender=" + gender +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", email='" + email + '\'' +
+                ", birthday=" + birthday +
+                ", nationalId='" + nationalId + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", walletInvoices=" + walletInvoices +
+                ", role=" + role +
+                ", passwordConfirm='" + passwordConfirm + '\'' +
+                ", balance=" + balance +
+                '}';
     }
 }

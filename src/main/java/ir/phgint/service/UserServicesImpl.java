@@ -3,6 +3,7 @@ package ir.phgint.service;
 import ir.phgint.domain.Role;
 import ir.phgint.domain.UserProfile;
 import ir.phgint.domain.dto.UserProfileDto;
+import ir.phgint.domain.repository.RoleDao;
 import ir.phgint.domain.repository.UserProfileDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ import java.util.UUID;
     @Autowired
     private UserProfileDao userProfileDao;
 
+    @Autowired
+    private RoleDao roleDao;
+
     @Override
     public UserProfileDto findByUsername(String username) {
 
@@ -33,10 +37,14 @@ import java.util.UUID;
 
     @Override
     public UserProfileDto findByEmail(String email) {
-        UserProfile userProfile = userProfileDao.findByEmail(email);
-        UserProfileDto userProfileDto = convertUserProfileDto(userProfile);
-        if (userProfileDto != null)
-            return userProfileDto;
+        UserProfile userProfile = userProfileDao.findUserByEmail(email);
+        if(userProfile==null)
+            return null;
+        else {
+            UserProfileDto userProfileDto = convertUserProfileDto(userProfile);
+            if (userProfileDto != null)
+                return userProfileDto;
+        }
         return null;
 
     }
@@ -59,7 +67,7 @@ import java.util.UUID;
         UserProfile userProfile = convertUserProfile(userProfileDto);
 
         if (userProfile!=null) {
-            userProfile = userProfileDao.updateUser(userProfile);
+            userProfile = userProfileDao.save(userProfile);
             return convertUserProfileDto(userProfile);
         }
         return null;
@@ -69,14 +77,14 @@ import java.util.UUID;
     public void deleteUser(UserProfileDto userProfileDto) {
       //  UserProfile userProfile = convertUserProfile(userProfileDto);
         UserProfile userProfile = userProfileDao.findUserByUsername(userProfileDto.getUsername());
-        userProfileDao.deleteUser(userProfile);
+        userProfileDao.delete(userProfile);
     }
 
     @Override
     public List<UserProfileDto> getAllUsers() {
         List<UserProfileDto> userProfileDtos = new ArrayList<UserProfileDto>();
 
-        List<UserProfile> userProfile = userProfileDao.getAllUsers();
+        Iterable<UserProfile> userProfile = userProfileDao.findAll();
         for (UserProfile user :userProfile) {
             userProfileDtos.add(convertUserProfileDto(user));
         }
@@ -89,7 +97,7 @@ import java.util.UUID;
         try {
             UserProfile userProfile = convertUserProfile(userProfileDto);
             if (userProfile != null) {
-                userProfileDao.saveUser(userProfile);
+                userProfileDao.save(userProfile);
                 return convertUserProfileDto(userProfile);
             }
         }catch (Exception ex)
@@ -106,7 +114,7 @@ import java.util.UUID;
             UserProfile userProfile = new UserProfile();
             if (userProfileDto != null) {
                 Role role = new Role();
-                role.setName(userProfileDto.getRole());
+                role = roleDao.findByRoleName(userProfileDto.getRole());
 
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 //   String dateString = format.format( new Date()   );
@@ -124,6 +132,7 @@ import java.util.UUID;
                 userProfile.setBirthday(date);
                 userProfile.setAddress(userProfileDto.getAddress());
                 userProfile.setPhone(userProfileDto.getPhone());
+                userProfile.setBalance(userProfileDto.getBalance());
                 return userProfile;
             }
 
@@ -146,7 +155,8 @@ import java.util.UUID;
             userProfileDto.setRole(userProfile.getRole().getName());
             userProfileDto.setNationalId(userProfile.getNationalId());
             userProfileDto.setGender(userProfile.getGender());
-            userProfileDto.setBirthday(userProfile.getBirthday().toString());
+            if(userProfile.getBirthday()!=null)
+                userProfileDto.setBirthday(userProfile.getBirthday().toString());
             userProfileDto.setAddress(userProfile.getAddress());
             userProfileDto.setPhone(userProfile.getPhone());
 
